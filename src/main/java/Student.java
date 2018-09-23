@@ -99,10 +99,12 @@ public class Student {
     @Override
     public String toString() {
         return String.format(
-                "Red Id: %d, Name: %s, %f",
+                "Red Id: %d, Name: %s, %f, GPA: %f, Units: %d",
                 this.getRedId(),
                 this.getFullName(),
-                this.getPriority()
+                this.getPriority(),
+                this.getGpa(),
+                this.getUnits()
         );
     }
 }
