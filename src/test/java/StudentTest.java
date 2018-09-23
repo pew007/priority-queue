@@ -31,20 +31,4 @@ class StudentTest {
         Assertions.assertThrows(IllegalArgumentException.class, () -> student.setUnits(200));
         Assertions.assertThrows(IllegalArgumentException.class, () -> student.setUnits(-10));
     }
-
-    @Test
-    void getPriority() {
-        Student student = new Student();
-        student.setGpa(2.0);
-        student.setUnits(100);
-        Assertions.assertEquals(0.6166666666666666, student.getPriority());
-
-        student.setGpa(2.0);
-        student.setUnits(75);
-        Assertions.assertEquals(0.5, student.getPriority());
-
-        student.setGpa(4.0);
-        student.setUnits(150);
-        Assertions.assertEquals(1.0, student.getPriority());
-    }
 }

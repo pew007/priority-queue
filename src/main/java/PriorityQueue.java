@@ -57,7 +57,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         }
 
         // save the current root to be returned and set the current leaf node as the new root
-        // then bubble down the new root node if necessary
+        // then sift down the new root node if necessary
         Association<Double, E> removed = maxHeap.get(0);
         Association<Double, E> leafNode = maxHeap.remove(size() - 1);
         maxHeap.set(0, leafNode);

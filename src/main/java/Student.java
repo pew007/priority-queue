@@ -1,9 +1,9 @@
 public class Student {
 
-    private static final double UNITS_WEIGHT = 0.7;
-    private static final double GPA_WEIGHT = 0.3;
-    private static final double MaxGPA = 4.0;
-    private static final int MaxUnits = 150;
+    public static final double UNITS_WEIGHT = 0.7;
+    public static final double GPA_WEIGHT = 0.3;
+    public static final double MaxGPA = 4.0;
+    public static final int MaxUnits = 150;
 
     private String firstName;
     private String lastName;
@@ -84,25 +84,12 @@ public class Student {
         }
     }
 
-    /**
-     * The priority is determined by the weighted total of 70% of units taken and 30% of student's GPA
-     *
-     * @return double student priority
-     */
-    public double getPriority() {
-        double weightedUnits = (double) getUnits() / (double) MaxUnits * UNITS_WEIGHT;
-        double weightedGpa = getGpa() / MaxGPA * GPA_WEIGHT;
-
-        return weightedUnits + weightedGpa;
-    }
-
     @Override
     public String toString() {
         return String.format(
-                "Red Id: %d, Name: %s, %f, GPA: %f, Units: %d",
+                "Red Id: %d, Name: %s, GPA: %f, Units: %d",
                 this.getRedId(),
                 this.getFullName(),
-                this.getPriority(),
                 this.getGpa(),
                 this.getUnits()
         );

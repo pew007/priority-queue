@@ -1,5 +1,3 @@
-import java.util.Comparator;
-
 public class GpaComparator implements PriorityComparator<Student> {
     @Override
     public double getPriority(Student e) {

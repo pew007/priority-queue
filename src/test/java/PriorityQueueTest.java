@@ -24,10 +24,6 @@ class PriorityQueueTest {
 
     @Test
     void size() {
-    }
-
-    @Test
-    void add() {
         PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
         for (Student student: students) {
             priorityQueue.add(student);
@@ -37,7 +33,7 @@ class PriorityQueueTest {
     }
 
     @Test
-    void remove() {
+    void prioritizedByGpa() {
         PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
         for (Student student: students) {
             priorityQueue.add(student);
@@ -48,5 +44,19 @@ class PriorityQueueTest {
         Assertions.assertEquals(3.2, priorityQueue.remove().getGpa());
         Assertions.assertEquals(2.2, priorityQueue.remove().getGpa());
         Assertions.assertEquals(2.0, priorityQueue.remove().getGpa());
+    }
+
+    @Test
+    void prioritizedByUnits() {
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new UnitComparator());
+        for (Student student: students) {
+            priorityQueue.add(student);
+        }
+
+        Assertions.assertEquals(105, priorityQueue.remove().getUnits());
+        Assertions.assertEquals(100, priorityQueue.remove().getUnits());
+        Assertions.assertEquals(60, priorityQueue.remove().getUnits());
+        Assertions.assertEquals(50, priorityQueue.remove().getUnits());
+        Assertions.assertEquals(40, priorityQueue.remove().getUnits());
     }
 }
