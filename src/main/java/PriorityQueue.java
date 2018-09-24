@@ -16,7 +16,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return null;
+        return new PriorityQueueIterator<>(this);
     }
 
     @Override
