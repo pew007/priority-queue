@@ -3,7 +3,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class PriorityQueueTest {
 
@@ -60,5 +62,17 @@ class PriorityQueueTest {
         Assertions.assertEquals(60, priorityQueue.remove().getUnits());
         Assertions.assertEquals(50, priorityQueue.remove().getUnits());
         Assertions.assertEquals(40, priorityQueue.remove().getUnits());
+    }
+
+    @Test
+    void toArray() {
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new UnitComparator());
+        priorityQueue.addAll(students);
+
+        Object[] array = priorityQueue.toArray();
+        Assertions.assertEquals(5, array.length);
+        for (Object obj : array) {
+            Assertions.assertTrue(obj instanceof Student);
+        }
     }
 }

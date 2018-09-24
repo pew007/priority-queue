@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class PriorityQueue<E> extends AbstractQueue<E> {
@@ -101,14 +102,20 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     }
 
     @Override
-    public <T> T[] toArray(T[] a) {
-        return super.toArray(a);
+    public Object[] toArray() {
+        List<Object> list = new ArrayList<>();
+        forEach(e -> list.add(e));
+
+        return list.toArray();
     }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        forEach(e -> stringBuilder.append(e.toString()));
+        forEach(e -> {
+            stringBuilder.append(e.toString());
+            stringBuilder.append("\n");
+        });
 
         return stringBuilder.toString();
     }
