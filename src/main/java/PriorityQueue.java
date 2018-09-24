@@ -5,6 +5,28 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     private List<Association<Double, E>> maxHeap;
     private PriorityComparator<E> comparator;
 
+    private class PriorityQueueIterator implements Iterator<E> {
+
+        private int current = 0;
+
+        @Override
+        public boolean hasNext() {
+            return current < maxHeap.size();
+        }
+
+        @Override
+        public E next() {
+            if (hasNext()) {
+                Association<Double, E> association = maxHeap.get(current);
+                current++;
+
+                return association.getValue();
+            } else {
+                throw new NoSuchElementException();
+            }
+        }
+    }
+
     public PriorityQueue(PriorityComparator<E> comparator) {
         this.maxHeap = new ArrayList<>();
         this.comparator = comparator;
@@ -16,7 +38,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
 
     @Override
     public Iterator<E> iterator() {
-        return new PriorityQueueIterator<>(this);
+        return new PriorityQueueIterator();
     }
 
     @Override
@@ -86,11 +108,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-
-        for (Association association : maxHeap) {
-            stringBuilder.append(association.getValue().toString());
-            stringBuilder.append("\n");
-        }
+        forEach(e -> stringBuilder.append(e.toString()));
 
         return stringBuilder.toString();
     }
