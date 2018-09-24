@@ -10,6 +10,10 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         this.comparator = comparator;
     }
 
+    public void setComparator(PriorityComparator<E> comparator) {
+        this.comparator = comparator;
+    }
+
     @Override
     public Iterator<E> iterator() {
         return null;
@@ -22,21 +26,10 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
 
     @Override
     public boolean offer(E e) {
-        return false;
-    }
+        if (e == null) {
+            throw new NullPointerException();
+        }
 
-    @Override
-    public E poll() {
-        return null;
-    }
-
-    @Override
-    public E peek() {
-        return null;
-    }
-
-    @Override
-    public boolean add(E e) {
         double priority = comparator.getPriority(e);
         Association<Double, E> association = new Association<>(priority, e);
         maxHeap.add(association);
@@ -47,7 +40,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     }
 
     @Override
-    public E remove() {
+    public E poll() {
         if (isEmpty()) {
             throw new NoSuchElementException("The queue is empty");
         }
@@ -64,6 +57,25 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         siftDown();
 
         return removed.getValue();
+    }
+
+    @Override
+    public E peek() {
+        if (isEmpty()) {
+            return null;
+        }
+
+        return maxHeap.get(0).getValue();
+    }
+
+    @Override
+    public boolean add(E e) {
+        return offer(e);
+    }
+
+    @Override
+    public E remove() {
+        return poll();
     }
 
     @Override

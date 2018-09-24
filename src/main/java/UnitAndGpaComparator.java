@@ -6,9 +6,4 @@ public class UnitAndGpaComparator implements PriorityComparator<Student> {
 
         return weightedUnits + weightedGpa;
     }
-
-    @Override
-    public int compare(Student e1, Student e2) {
-        return 0;
-    }
 }
