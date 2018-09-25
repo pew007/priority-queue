@@ -3,6 +3,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 class PriorityQueueTest {
@@ -78,5 +79,15 @@ class PriorityQueueTest {
         priorityQueue.remove(student2);
 
         Assertions.assertEquals(2, priorityQueue.size());
+    }
+
+    @Test
+    void iterator() {
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new UnitComparator());
+        priorityQueue.addAll(students);
+
+        for (Student aPriorityQueue : priorityQueue) {
+            Assertions.assertNotNull(aPriorityQueue);
+        }
     }
 }
