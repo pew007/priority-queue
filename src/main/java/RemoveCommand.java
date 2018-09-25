@@ -18,6 +18,8 @@ public class RemoveCommand extends Command {
 
     @Override
     public void undo(Object... args) throws IllegalArgumentException {
-        priorityQueue.add(lastRemoved);
+        if (lastRemoved != null) {
+            priorityQueue.add(lastRemoved);
+        }
     }
 }

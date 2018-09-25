@@ -18,6 +18,11 @@ public class AddCommand extends Command {
 
     @Override
     public void undo(Object... args) throws IllegalArgumentException {
-        priorityQueue.remove();
+        if (args.length <= 0) {
+            throw new IllegalArgumentException();
+        }
+
+        Object lastAdded = args[0];
+        priorityQueue.remove(lastAdded);
     }
 }

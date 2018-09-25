@@ -76,9 +76,8 @@ class PriorityQueueTest {
         priorityQueue.add(student2);
         priorityQueue.add(student3);
         priorityQueue.add(student4);
-        System.out.println(priorityQueue);
         priorityQueue.remove(student2);
 
-        System.out.println(priorityQueue);
+        Assertions.assertEquals(3, priorityQueue.size());
     }
 }

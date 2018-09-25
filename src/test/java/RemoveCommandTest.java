@@ -37,5 +37,13 @@ class RemoveCommandTest {
 
     @Test
     void undo() {
+        priorityQueue.add(students.get(0));
+        priorityQueue.add(students.get(1));
+
+        RemoveCommand removeCommand = new RemoveCommand(priorityQueue);
+        removeCommand.execute();
+        removeCommand.undo();
+
+        Assertions.assertEquals(2, priorityQueue.size());
     }
 }
