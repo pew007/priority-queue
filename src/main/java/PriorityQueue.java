@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class PriorityQueue<E> extends AbstractQueue<E> {
@@ -107,6 +106,11 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         forEach(e -> list.add(e));
 
         return list.toArray();
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return super.remove(o);
     }
 
     @Override

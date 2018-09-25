@@ -1,4 +1,4 @@
-public class AddCommand implements Command {
+public class AddCommand extends Command {
 
     private PriorityQueue priorityQueue;
 
@@ -7,12 +7,17 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(Object... args) throws IllegalArgumentException {
+        if (args.length <= 0) {
+            throw new IllegalArgumentException();
+        }
 
+        Object toAdd = args[0];
+        priorityQueue.add(toAdd);
     }
 
     @Override
-    public void undo() {
-
+    public void undo(Object... args) throws IllegalArgumentException {
+        priorityQueue.remove();
     }
 }
