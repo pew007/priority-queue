@@ -1,43 +1,25 @@
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.lang.reflect.Method;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AddCommandTest {
 
-    private PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
-    private List<Student> students = new ArrayList<>();
-
-    @BeforeEach
-    void setUp() {
-        students = TestDataGenerator.generateStudents();
-    }
-
     @Test
     void execute() {
-        AddCommand addCommand = new AddCommand(priorityQueue);
-        addCommand.execute(students.get(0));
-        addCommand.execute(students.get(1));
-        addCommand.execute(students.get(2));
-        addCommand.execute(students.get(3));
+        List<Student> students = TestDataGenerator.generateStudents();
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
 
-        Assertions.assertEquals(4, priorityQueue.size());
-    }
+        AddCommand addCommand = new AddCommand(priorityQueue, students.get(0));
+        addCommand.execute();
 
-    @Test
-    void undo() {
-        AddCommand addCommand = new AddCommand(priorityQueue);
-        addCommand.execute(students.get(0));
-        addCommand.execute(students.get(1));
-        addCommand.execute(students.get(2));
-        addCommand.execute(students.get(3));
+        Assertions.assertEquals(1, priorityQueue.size());
+
         addCommand.undo();
-        addCommand.undo();
+        Assertions.assertTrue(priorityQueue.isEmpty());
 
-        Assertions.assertEquals(2, priorityQueue.size());
     }
 }

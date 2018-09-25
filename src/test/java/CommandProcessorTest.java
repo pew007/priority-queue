@@ -4,43 +4,62 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CommandProcessorTest {
 
     private PriorityQueue<Student> priorityQueue;
     private List<Student> students;
-    private CommandProcessor commandProcessor;
-    private AddCommand addCommand;
 
     @BeforeEach
     void setUp() {
         priorityQueue = new PriorityQueue<>(new UnitComparator());
         students = TestDataGenerator.generateStudents();
-
-        commandProcessor = new CommandProcessor();
-        addCommand = new AddCommand(priorityQueue);
-        commandProcessor.setCommand(CommandProcessor.ADD, addCommand);
     }
 
     @Test
-    void execute() {
-        commandProcessor.execute(CommandProcessor.ADD, students.get(0));
-        Assertions.assertEquals(1, priorityQueue.size());
+    void executeAdd() {
+        CommandProcessor commandProcessor = new CommandProcessor();
 
-        commandProcessor.execute(CommandProcessor.ADD, students.get(1));
-        commandProcessor.execute(CommandProcessor.ADD, students.get(2));
-        commandProcessor.execute(CommandProcessor.ADD, students.get(3));
-        commandProcessor.execute(CommandProcessor.REMOVE);
+        Command addCommand = new AddCommand(priorityQueue, students.get(0));
+        commandProcessor.execute(addCommand);
+
+        addCommand = new AddCommand(priorityQueue, students.get(3));
+        commandProcessor.execute(addCommand);
+
+        addCommand = new AddCommand(priorityQueue, students.get(4));
+        commandProcessor.execute(addCommand);
+
         Assertions.assertEquals(3, priorityQueue.size());
-    }
 
-    @Test
-    void undo() {
-        commandProcessor.execute(CommandProcessor.ADD, students.get(0));
-        commandProcessor.execute(CommandProcessor.ADD, students.get(1));
+        commandProcessor.undo();
+        commandProcessor.undo();
         commandProcessor.undo();
 
+        Assertions.assertEquals(0, priorityQueue.size());
+    }
+
+    @Test
+    void executeRemove() {
+        CommandProcessor commandProcessor = new CommandProcessor();
+
+        Command addCommand = new AddCommand(priorityQueue, students.get(0));
+        commandProcessor.execute(addCommand);
+
+        addCommand = new AddCommand(priorityQueue, students.get(3));
+        commandProcessor.execute(addCommand);
+
+        addCommand = new AddCommand(priorityQueue, students.get(4));
+        commandProcessor.execute(addCommand);
+
+        Command removeCommand = new RemoveCommand(priorityQueue);
+        commandProcessor.execute(removeCommand);
+
+        removeCommand = new RemoveCommand(priorityQueue);
+        commandProcessor.execute(removeCommand);
+
         Assertions.assertEquals(1, priorityQueue.size());
+
+        commandProcessor.undo();
+        commandProcessor.undo();
+        Assertions.assertEquals(3, priorityQueue.size());
     }
 }

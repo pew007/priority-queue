@@ -1,49 +1,40 @@
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RemoveCommandTest {
 
-    private PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
-    private List<Student> students = new ArrayList<>();
-
-    @BeforeEach
-    void setUp() {
-        students = TestDataGenerator.generateStudents();
-    }
-
     @Test
-    void removeFromEmptyQueue() {
-        RemoveCommand removeCommand = new RemoveCommand(priorityQueue);
-        Assertions.assertThrows(NoSuchElementException.class, removeCommand::execute);
-    }
+    void execute() {
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
+        List<Student> students = TestDataGenerator.generateStudents();
 
-    @Test
-    void removeAfterAdd() {
-        priorityQueue.add(students.get(0));
-        priorityQueue.add(students.get(1));
+        AddCommand addCommand = new AddCommand(priorityQueue, students.get(0));
+        addCommand.execute();
 
         RemoveCommand removeCommand = new RemoveCommand(priorityQueue);
         removeCommand.execute();
 
-        Assertions.assertEquals(1, priorityQueue.size());
+        Assertions.assertTrue(priorityQueue.isEmpty());
     }
 
     @Test
     void undo() {
-        priorityQueue.add(students.get(0));
-        priorityQueue.add(students.get(1));
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
+        List<Student> students = TestDataGenerator.generateStudents();
+
+        AddCommand addCommand = new AddCommand(priorityQueue, students.get(0));
+        addCommand.execute();
 
         RemoveCommand removeCommand = new RemoveCommand(priorityQueue);
         removeCommand.execute();
-        removeCommand.undo();
 
-        Assertions.assertEquals(2, priorityQueue.size());
+        Assertions.assertTrue(priorityQueue.isEmpty());
+
+        removeCommand.undo();
+        Assertions.assertEquals(1, priorityQueue.size());
     }
 }

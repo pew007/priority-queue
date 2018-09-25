@@ -108,8 +108,10 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
 
         int index = maxHeap.indexOf(o);
         E leafNode = maxHeap.remove(size() - 1);
-        maxHeap.set(index, leafNode);
-        siftDown(index);
+        if (index < maxHeap.size()) {
+            maxHeap.set(index, leafNode);
+            siftDown(index);
+        }
 
         return true;
     }
