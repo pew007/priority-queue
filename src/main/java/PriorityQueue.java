@@ -59,7 +59,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     @Override
     public E poll() {
         if (isEmpty()) {
-            throw new NoSuchElementException("The queue is empty");
+            return null;
         }
 
         if (size() == 1) {
@@ -71,7 +71,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         E removed = maxHeap.get(0);
         E leafNode = maxHeap.remove(size() - 1);
         maxHeap.set(0, leafNode);
-        siftDown();
+        siftDown(0);
 
         return removed;
     }
@@ -92,7 +92,26 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
 
     @Override
     public E remove() {
-        return poll();
+        E removed = poll();
+        if (removed == null) {
+            throw new NoSuchElementException();
+        }
+
+        return removed;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        if (!maxHeap.contains(o)) {
+            return false;
+        }
+
+        int index = maxHeap.indexOf(o);
+        E leafNode = maxHeap.remove(size() - 1);
+        maxHeap.set(index, leafNode);
+        siftDown(index);
+
+        return true;
     }
 
     @Override
@@ -101,11 +120,6 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         forEach(list::add);
 
         return list.toArray();
-    }
-
-    @Override
-    public boolean remove(Object o) {
-        return super.remove(o);
     }
 
     @Override
@@ -137,8 +151,8 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         }
     }
 
-    private void siftDown() {
-        int currentIndex = 0;
+    private void siftDown(int index) {
+        int currentIndex = index;
         int leftIndex = 2 * currentIndex + 1;
 
         while (leftIndex < size()) {

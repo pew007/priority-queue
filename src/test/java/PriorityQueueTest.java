@@ -63,4 +63,22 @@ class PriorityQueueTest {
             Assertions.assertTrue(obj instanceof Student);
         }
     }
+
+    @Test
+    void removeSpecificObject() {
+        PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new UnitComparator());
+        Student student1 = students.get(0);
+        Student student2 = students.get(1);
+        Student student3 = students.get(2);
+        Student student4 = students.get(3);
+
+        priorityQueue.add(student1);
+        priorityQueue.add(student2);
+        priorityQueue.add(student3);
+        priorityQueue.add(student4);
+        System.out.println(priorityQueue);
+        priorityQueue.remove(student2);
+
+        System.out.println(priorityQueue);
+    }
 }
