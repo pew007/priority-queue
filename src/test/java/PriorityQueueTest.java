@@ -70,14 +70,13 @@ class PriorityQueueTest {
         Student student1 = students.get(0);
         Student student2 = students.get(1);
         Student student3 = students.get(2);
-        Student student4 = students.get(3);
 
         priorityQueue.add(student1);
         priorityQueue.add(student2);
         priorityQueue.add(student3);
-        priorityQueue.add(student4);
+
         priorityQueue.remove(student2);
 
-        Assertions.assertEquals(3, priorityQueue.size());
+        Assertions.assertEquals(2, priorityQueue.size());
     }
 }

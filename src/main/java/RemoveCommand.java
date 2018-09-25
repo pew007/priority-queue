@@ -1,4 +1,4 @@
-public class RemoveCommand extends Command {
+public class RemoveCommand implements Command {
 
     private PriorityQueue priorityQueue;
     private Object lastRemoved;
@@ -8,18 +8,12 @@ public class RemoveCommand extends Command {
     }
 
     @Override
-    public void execute(Object... args) throws IllegalArgumentException {
-        if (args.length > 0) {
-            throw new IllegalArgumentException();
-        }
-
+    public void execute() {
         lastRemoved = priorityQueue.remove();
     }
 
     @Override
-    public void undo(Object... args) throws IllegalArgumentException {
-        if (lastRemoved != null) {
-            priorityQueue.add(lastRemoved);
-        }
+    public void undo() {
+        priorityQueue.add(lastRemoved);
     }
 }

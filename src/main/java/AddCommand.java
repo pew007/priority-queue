@@ -1,28 +1,20 @@
-public class AddCommand extends Command {
+public class AddCommand implements Command {
 
     private PriorityQueue priorityQueue;
+    private Object toAdd;
 
-    public AddCommand(PriorityQueue priorityQueue) {
+    public AddCommand(PriorityQueue priorityQueue, Object toAdd) {
         this.priorityQueue = priorityQueue;
+        this.toAdd = toAdd;
     }
 
     @Override
-    public void execute(Object... args) throws IllegalArgumentException {
-        if (args.length <= 0) {
-            throw new IllegalArgumentException();
-        }
-
-        Object toAdd = args[0];
+    public void execute() {
         priorityQueue.add(toAdd);
     }
 
     @Override
-    public void undo(Object... args) throws IllegalArgumentException {
-        if (args.length <= 0) {
-            throw new IllegalArgumentException();
-        }
-
-        Object lastAdded = args[0];
-        priorityQueue.remove(lastAdded);
+    public void undo() {
+        priorityQueue.remove(toAdd);
     }
 }
