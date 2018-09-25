@@ -2,8 +2,8 @@ import java.util.*;
 
 public class PriorityQueue<E> extends AbstractQueue<E> {
 
-    private List<Association<Double, E>> maxHeap;
-    private PriorityComparator<E> comparator;
+    private List<E> maxHeap;
+    private Comparator<E> comparator;
 
     private class PriorityQueueIterator implements Iterator<E> {
 
@@ -17,22 +17,19 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         @Override
         public E next() {
             if (hasNext()) {
-                Association<Double, E> association = maxHeap.get(current);
-                current++;
-
-                return association.getValue();
+                return maxHeap.get(current++);
             } else {
                 throw new NoSuchElementException();
             }
         }
     }
 
-    public PriorityQueue(PriorityComparator<E> comparator) {
+    public PriorityQueue(Comparator<E> comparator) {
         this.maxHeap = new ArrayList<>();
         this.comparator = comparator;
     }
 
-    public void setComparator(PriorityComparator<E> comparator) {
+    public void setComparator(Comparator<E> comparator) {
         this.comparator = comparator;
     }
 
@@ -52,9 +49,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
             throw new NullPointerException();
         }
 
-        double priority = comparator.getPriority(e);
-        Association<Double, E> association = new Association<>(priority, e);
-        maxHeap.add(association);
+        maxHeap.add(e);
 
         siftUp();
 
@@ -68,17 +63,17 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         }
 
         if (size() == 1) {
-            return maxHeap.remove(0).getValue();
+            return maxHeap.remove(0);
         }
 
         // save the current root to be returned and set the current leaf node as the new root
         // then sift down the new root node if necessary
-        Association<Double, E> removed = maxHeap.get(0);
-        Association<Double, E> leafNode = maxHeap.remove(size() - 1);
+        E removed = maxHeap.get(0);
+        E leafNode = maxHeap.remove(size() - 1);
         maxHeap.set(0, leafNode);
         siftDown();
 
-        return removed.getValue();
+        return removed;
     }
 
     @Override
@@ -87,7 +82,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
             return null;
         }
 
-        return maxHeap.get(0).getValue();
+        return maxHeap.get(0);
     }
 
     @Override
@@ -103,7 +98,7 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     @Override
     public Object[] toArray() {
         List<Object> list = new ArrayList<>();
-        forEach(e -> list.add(e));
+        forEach(list::add);
 
         return list.toArray();
     }
@@ -130,10 +125,10 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         while (currentIndex > 0) {
             // in the flat array structure, the parent index of an item at index k is (k-1)/2
             int parentIndex = (currentIndex - 1) / 2;
-            Association currentNode = maxHeap.get(currentIndex);
-            Association parentNode = maxHeap.get(parentIndex);
+            E currentNode = maxHeap.get(currentIndex);
+            E parentNode = maxHeap.get(parentIndex);
 
-            if ((double) currentNode.getKey() > (double) parentNode.getKey()) {
+            if (comparator.compare(currentNode, parentNode) > 0) {
                 swap(currentIndex, parentIndex);
                 currentIndex = parentIndex;
             } else {
@@ -149,19 +144,19 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
         while (leftIndex < size()) {
             int maxIndex = leftIndex;
             int rightIndex = leftIndex + 1;
-            Association currentNode = maxHeap.get(currentIndex);
-            Association leftChild = maxHeap.get(leftIndex);
-            Association currentMaxNode = maxHeap.get(maxIndex);
+            E currentNode = maxHeap.get(currentIndex);
+            E leftChild = maxHeap.get(leftIndex);
+            E currentMaxNode = maxHeap.get(maxIndex);
 
             // if there is a right child, compare it with the left child to find the max
             if (rightIndex < size()) {
-                Association rightChild = maxHeap.get(rightIndex);
-                if ((double) rightChild.getKey() > (double) leftChild.getKey()) {
+                E rightChild = maxHeap.get(rightIndex);
+                if (comparator.compare(rightChild, leftChild) > 0) {
                     maxIndex = rightIndex;
                 }
             }
 
-            if ((double) currentNode.getKey() < (double) currentMaxNode.getKey()) {
+            if (comparator.compare(currentNode, currentMaxNode) < 0) {
                 swap(currentIndex, maxIndex);
                 currentIndex = maxIndex;
                 leftIndex = 2 * currentIndex + 1;
@@ -172,8 +167,8 @@ public class PriorityQueue<E> extends AbstractQueue<E> {
     }
 
     private void swap(int index1, int index2) {
-        Association<Double, E> item1 = maxHeap.get(index1);
-        Association<Double, E> item2 = maxHeap.get(index2);
+        E item1 = maxHeap.get(index1);
+        E item2 = maxHeap.get(index2);
 
         maxHeap.set(index1, item2);
         maxHeap.set(index2, item1);

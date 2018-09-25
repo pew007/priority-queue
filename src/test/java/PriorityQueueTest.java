@@ -33,8 +33,6 @@ class PriorityQueueTest {
         PriorityQueue<Student> priorityQueue = new PriorityQueue<>(new GpaComparator());
         priorityQueue.addAll(students);
 
-        System.out.println(priorityQueue);
-
         Assertions.assertEquals(4.0, priorityQueue.remove().getGpa());
         Assertions.assertEquals(3.5, priorityQueue.remove().getGpa());
         Assertions.assertEquals(3.2, priorityQueue.remove().getGpa());
